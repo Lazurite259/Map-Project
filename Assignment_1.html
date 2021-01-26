@@ -13,7 +13,7 @@ What follows is an explanation of how the Leaflet Map works... Press the thunder
    
     
     <meta charset=utf-8 />  <!--turns these letters into machine readable code-->
-    <title>Your First Map</title>  
+    <title>Taipei</title>  
     
     <!-- 
 The title is what shows up in your browser tab. Live preview the map by clicking on the horizontal thunderbolt in the upper right corner of brackets. It should open a new brower window with grey map that contains a marker,    circle, and polygon. 
@@ -148,7 +148,7 @@ This div tag which we named 'mapid" has an ID, which means we will only be using
 
  <script> //This is where we do most of our work. This is for JS. Let's make a map in Leaflet!
 
-       var mymap = L.map('mapid').setView([51.505, -0.09], 13); 
+       var mymap = L.map('mapid').setView([25.033632956646965, 121.55317499857729], 15); 
         
 /*var mymap... saves what comes after the equal sign. Think about a var or variable as a 
      box. That box contains everything after the equals sign. The box has a name that we can refer to in the future. In this case we can refer the statement ' L.map('mapid').setView([51.505, -0.09], 13);' later in our program by simply invoking 'mymap'*/
@@ -182,16 +182,16 @@ This div tag which we named 'mapid" has an ID, which means we will only be using
 
 // OK! Now let's start creating things on the map!   
      
-var marker = L.marker([51.5, -0.09]).addTo(mymap); 
+var marker = L.marker([25.033632956646965, 121.55317499857729]).addTo(mymap); 
 
 /*We are creating a marker here using the 'HEY LEAFLET CAN I GET A MARKER' We give it a 
   Lat/Lon argument (it's required to create the marker) and then we add it to the map - which we store with a variable. We are using a variable to a marker so we use it later if we want. Go to the documentation (Google Leaflet Documentation) and look up L.Marker. What kinds of things can we do with the marker?*/
         
-var circle = L.circle([51.508, -0.11], { //We can create a circle as well. The circle is different than the marker. You see that we have a radius option. More about options, properties, and values next week when we learn about objects. Manipulate some of these options and see how your circle changes. Note that it also has a lat lon argument. 
+var circle = L.circle([25.040248170748367, 121.55845104491364], { //We can create a circle as well. The circle is different than the marker. You see that we have a radius option. More about options, properties, and values next week when we learn about objects. Manipulate some of these options and see how your circle changes. Note that it also has a lat lon argument. 
     color: 'red',
     fillColor: '#f03',
     fillOpacity: 0.5,
-    radius: 500
+    radius: 56
 }).addTo(mymap);
 
 /*console.log(circle) */ 
@@ -202,9 +202,9 @@ var polygon = L.polygon([ //How is a polygon different than a circle? Why do we 
     [51.51, -0.047]
 ]).addTo(mymap);
         
-marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();//example of html - b and br represent something - what? 
-circle.bindPopup("I am a circle.");
-polygon.bindPopup("I am a polygon.");
+marker.bindTooltip("<b>Taipei</b><br>This is my home town.").openTooltip();//example of html - b and br represent something - what? 
+circle.bindTooltip("This is my elementary school.");
+polygon.bindTooltip("I am a polygon.");
         
 // Ahh these govern what pops up when the user clicks on the vector object. Marker, Circle, and Polygon refer to the variables we created above. These objects are further modfied with .bindpopup. The bindpopup method from leaflet modifies the the marker, circle, and polygon objects you created. This is the basic ebb and flow of using this JS library. 
      
