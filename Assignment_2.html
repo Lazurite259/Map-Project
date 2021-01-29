@@ -60,9 +60,8 @@
 
         p {
             font-size: 1em;
-            color: #001323;
+            color: #343b41;
         }
-
     </style>
 
 
@@ -93,8 +92,8 @@
         // We certainly covered a lot in that first lab! At this point you should feel somewhat comfortable in this brackets/chrome environment. This week we take the next step in the JS learning curve. It is fun to create little symbols for individual places, but the real power of mapping is to visualize data sets. Object notion, if/then statements, and for loops will take us in this direction. 
 
         var mymap = L.map('map', { // The center and zoom are now options of the map object. Go to the Leaflet documentation and check out where center and zoom come from. 
-            center: [39.9526, -75.1652],
-            zoom: 10
+            center: [36.129766073231515, -84.50700187125538],
+            zoom: 5
         });
 
         var mapLink =
@@ -131,17 +130,15 @@
             Vietnam: {
                 City1: "Da Nang",
                 City2: "HCMC",
-                City3: "Nha Trang",
-
+                City3: "Nha Trang"
             }
-
         }
 
         //So what is going on here? I have a box with a name that stores a value called countriesVisited. The object has two main properties Thailand and Vietnam. The Vietnam property has a value that is an object. This object has 3 properties called City1, 2, and 3. 
 
         // We can access these properties by simply placing another dot. Let's try it. 
 
-        //console.log(countriesVisited.Vietnam.City1) The further we go into the nested object the more dots (.) we have to use
+        console.log(countriesVisited.Vietnam.City1) //The further we go into the nested object the more dots (.) we have to use
 
         //It should tell us Da Nang. Fun! You will need this skill later in the course to make sense of complex data structures and access the properties you want to feature on your map. 
 
@@ -158,7 +155,7 @@
 
         // Try this one. Console log countriesVisited and inspect it in the browswer... Get used to doing this. Console logging is the best way to find out how your program works. Use it liberally to problem solve!
 
-        // console.log(countriesVisited)
+        console.log(countriesVisited)
 
         //Inspect this object. What do you see?
 
@@ -175,20 +172,24 @@
         Use else if to specify a new condition to test, if the first condition is false
         Use switch to specify many alternative blocks of code to be executed*/
 
-        //if (condition) {
-        //  //  block of code to be executed if the condition is true
-        //}        
+        /*if (condition) {
+            // block of code to be executed if the condition is true
+        }*/
 
-        /* if (Class.Ready_To_Rock = true) {alert("louder")}*/
+        /*if (Class.Ready_To_Rock = true) {
+            alert("louder")
+        }*/
 
         //This is an easy one. Uncomment it. If the condition is true (Class.Ready_To_Rock) then the JS method alert will tell you 'louder'!
 
 
-        /* var sign = prompt("What's your sign?");
+        /*var sign = prompt("What's your sign?");
 
-if (sign.toLowerCase() == "sagittarius") {
-  alert("Wow! I'm a one too!")}
-    else {alert("Lame")}*/
+        if (sign.toLowerCase() == "sagittarius") {
+            alert("Wow! I'm a one too!")
+        } else {
+            alert("Lame")
+        }*/
 
         //This one is fun... a variable sign is a prompt that asks the user what their sign is. We only have one condition here but you could add others using 'else if'. Try it out. 
 
@@ -205,7 +206,7 @@ if (sign.toLowerCase() == "sagittarius") {
         } // The first condition. 
         else if (date < 20) {
             var popup = "stuck in the middle"
-        } // anothe condition 
+        } // another condition 
         else {
             var popup = "What happened?"
         } // If the first two conditions aren't met
@@ -217,17 +218,14 @@ if (sign.toLowerCase() == "sagittarius") {
             .addTo(mymap);
 
 
-
-
-
         // Finally let's see what do while statement does...
         // Here we want something to keep on happening until it is no longer true. 
 
 
-        /* do {
-  code block to be executed
-}
-while (condition);*/
+        /*do {
+            code block to be executed
+        }
+        while (condition);*/
 
 
         var result = ""; //an empty variable
@@ -244,7 +242,7 @@ while (condition);*/
         // We can try this with a fun prompt example 
 
         /*do {
-          var truth = prompt("Is the earth flat? Yes or No?")
+            var truth = prompt("Is the earth flat? Yes or No?")
         } while (truth != "no");*/
 
         //This acts as a guardian. You cannot get the map until the right yes in the console. 
@@ -260,7 +258,7 @@ while (condition);*/
 
         // The popup should have the name of the city and how far it is from Philadelphia. Please include this information as properties and values in the objects and reference them in the pop up with dot notation.
 
-        // // Use JS Math or a different JS Date Method to Create a Condition that determines what will popup for your cities. For example: You might want to have a popup that uses the month to determine the season. Your popup might look something like "In New York, which is 90 miles from Philly, it's winter" In this statement you will create an if/ else if statement to determine season and use dot notation from the objects to create the name of the city and how many miles it is from Philly. 
+        // Use JS Math or a different JS Date Method to Create a Condition that determines what will popup for your cities. For example: You might want to have a popup that uses the month to determine the season. Your popup might look something like "In New York, which is 90 miles from Philly, it's winter" In this statement you will create an if/ else if statement to determine season and use dot notation from the objects to create the name of the city and how many miles it is from Philly. 
 
         // For the A...
 
@@ -268,10 +266,78 @@ while (condition);*/
 
         // Use a prompt and do/while statement to link user input to the popups in the map 
         // For one of the cities change the color of the text in the popup to a color related to the city
-        // Give one of the cities an icon that represents the city (see the Leaflet Documentation)    
+        // Give one of the cities an icon that represents the city (see the Leaflet Documentation)
 
+        //Set an icon.
+        var iconNewYork = L.icon({
+            iconUrl: 'https://img.icons8.com/plasticine/2x/statue-of-liberty.png',
+            iconSize: [50, 50]
+        });
+
+        //Create markers for 3 cities.
+        var markerHouston = L.marker([29.725095416908154, -95.37936835679633]).addTo(mymap);
+        var markerNewYork = L.marker([40.757706050108006, -74.02435282754624]).setIcon(iconNewYork).addTo(mymap);
+        var markerChicago = L.marker([41.90421669387604, -87.62678958879816]).addTo(mymap);
+
+        //The name of the cities and how far from Philadelphia.
+        var US = {
+            Houston: {
+                name: "Houston",
+                distance: 1343.579,
+                marker: markerHouston
+            },
+            NewYork: {
+                name: "New York",
+                distance: 83.966,
+                marker: markerNewYork
+            },
+            Chicago: {
+                name: "Chicago",
+                distance: 664.103,
+                marker: markerChicago
+            }
+        };
+        console.log(US);
+
+        //Create a condition that determines what will popup for the cities.
+        var month = d.getMonth() + 1;
+        var season = "";
+        if (month > 2 && month < 6) {
+            season = "spring";
+        } else if (month > 5 && month < 9) {
+            season = "summer";
+        } else if (month > 8 && month < 12) {
+            season = "autumn";
+        } else {
+            season = "winter";
+        }
+        console.log(month);
+
+        //Popup of the markers.
+        markerHouston.bindPopup(`<p style='color:blue'><b>${US.Houston.name}</b><br>The distance between ${US.Houston.name} and Philadelphia is ${US.Houston.distance} km. It is ${season} now.</p>`, {
+            autoClose: false
+        });
+        markerNewYork.bindPopup(`<b>${US.NewYork.name}</b><br>The distance between ${US.NewYork.name} and Philadelphia is ${US.NewYork.distance} km. It is ${season} now.`, {
+            autoClose: false
+        });
+        markerChicago.bindPopup(`<b>${US.Chicago.name}</b><br>The distance between ${US.Chicago.name} and Philadelphia is ${US.Chicago.distance} km. It is ${season} now.`, {
+            autoClose: false
+        });
+
+        //Use a prompt and do/while statement.
+        do {
+            var distance = prompt("How far would you going to travel? (0 to 1500 miles)");
+        } while (distance < 0 || distance > 1500)
+
+        //Popup the marker which its distance from Philadelphia is under the input distance.
+        var array = Object.values(US);
+        var x = 0;
+        for (x in array) {
+            if (array[x]["distance"] < distance) {
+                console.log(x);
+                array[x]["marker"].openPopup();
+            }
+        }
     </script>
 
-</body>
-
-</html>
+</body></html>
