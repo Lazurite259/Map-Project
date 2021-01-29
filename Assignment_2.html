@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!--Our header, which contains link to Leaflet and parsting help-->
+
+    <meta charset=utf-8 />
+    <title>Lab 2 Tutorial</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+
+
+
+
+    <style>
+        /*    This style section is going to be more important this time around. As I've mentioned we have a document object model. We can select different parts of our program and customize the appearnce of them. Anything wrapped in body, header, h1, h2, #map, footer, and p tags. Look at the rest of the document. What do you see? You can scroll down to our header (not to be confused with head) and footer. Change the values from default and then go the W3 schools 
+        
+    https://www.w3schools.com/tags/tag_hn.asp. 
+        
+    Here you will find the default values for H1 through H6. You can customize these values as well. Try it out. Change the properties and values - properties on the left side in purple and values on the right side after the colon depending on on the kind value (string, number, etc). Each of these CSS items are called objects. We will learn about objects in this lesson. h1 for example is an object, these objects have properties and values, which you can manipulate. Try changing the text for h1 below (with the value default) and play around with some of the properties and values.     
+        */
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+
+        header {
+            padding: 6px 10%;
+        }
+
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+
+    </style>
+
+
+
+</head>
+
+<body>
+    <header>
+        <h1>Default</h1>
+        <h2>Default</h2>
+        <!--Manipulate the Header and Footer-->
+
+    </header>
+
+    <div id="map"></div>
+    <!--The space that we need to create the leaflet map - styled above in css with #map in the style tags-->
+
+
+
+    <footer>
+        <p>Default</p>
+        <p>Default</p>
+        <!--manipulate the p tags and change it from default-->
+    </footer>
+
+
+    <script>
+        // We certainly covered a lot in that first lab! At this point you should feel somewhat comfortable in this brackets/chrome environment. This week we take the next step in the JS learning curve. It is fun to create little symbols for individual places, but the real power of mapping is to visualize data sets. Object notion, if/then statements, and for loops will take us in this direction. 
+
+        var mymap = L.map('map', { // The center and zoom are now options of the map object. Go to the Leaflet documentation and check out where center and zoom come from. 
+            center: [39.9526, -75.1652],
+            zoom: 10
+        });
+
+        var mapLink =
+            '<a href="http://openstreetmap.org">OpenStreetMap</a>'; // Different Base Map!
+        var tiles = L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; ' + mapLink + ' Contributors',
+                maxZoom: 18,
+            })
+        tiles.addTo(mymap); // We add our tiles in the same way as before. Here we use tiles from openstretmap. Here you can see that I made a variable called maplink for the attribution. 
+
+        var Class = {
+            Students: 6,
+            Name: "Web Mapping",
+            Ready_To_Rock: true
+        }
+
+
+        // This is an object. A very convenient way of storing information. It mirrors the way that GeoJSON data is structured - the primary way in which we will store and parse (converting) data in this environment.
+
+        // Check out this website for information about objects. There is also a required module on objects in code academy
+        //https://javascript.info/object
+
+        // We have our box that stores the properties (sometimes called keys) and values of 'Students', 'Name', and 'Ready_To_Rock". The name on that box is 'Class'. We can refer to the values in this box by calling the name of the variable.property. So for example - in the popup up we have class.name The value of class.Name is 'Web Mapping". Try console logging class.Name. Make sure all characters are correct. They are case sensitive!
+
+        // I used this opportunity to familiarize you with the 3 kinds of values. That green 6 is a number, The orange 'web mapping' is a string - you can see the quotes around it and finally true is a boolean. In this case true or false mean something special - they evaluate if a statement is true. If you put quotes around it - it would then be the word 'true'. We choose a type of data to signify what the purpose of your text will be to the program. Also notice that after each value (excluding the last one), I put a comma. If you don't your program will break!
+
+        // Try creating your own object. Use console.log statements to explore these notations. You will notice that if you type these values into the console (Through inspect in Chrome) you will get the values you are looking for. 
+
+        //We can make nested objects as well. An object within an object and refer to them accordingly with dot notation. Notice the name of my variable. It's in what we call camelCase. For a variable of property name a capital letter signifies a space. 
+
+        var countriesVisited = {
+            Thailand: 2018,
+            Vietnam: {
+                City1: "Da Nang",
+                City2: "HCMC",
+                City3: "Nha Trang",
+
+            }
+
+        }
+
+        //So what is going on here? I have a box with a name that stores a value called countriesVisited. The object has two main properties Thailand and Vietnam. The Vietnam property has a value that is an object. This object has 3 properties called City1, 2, and 3. 
+
+        // We can access these properties by simply placing another dot. Let's try it. 
+
+        //console.log(countriesVisited.Vietnam.City1) The further we go into the nested object the more dots (.) we have to use
+
+        //It should tell us Da Nang. Fun! You will need this skill later in the course to make sense of complex data structures and access the properties you want to feature on your map. 
+
+        // Ok now try this. Below is our old friend the circle. Let's console log the circle, but instead use the property of the circle _latlng. It will give you lat/lng coordiante. When the circle is created there is a lot going on that we didn't even input - this is what a JS library is about - a programmer is doing the heavy lifting for us. Nice. If you console log 'circle' and press the drop down arrow in the console you will see that _latlng is a property that gives us the value we input with L.circle. 
+
+        var circle = L.circle([39.9526, -75.1652], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 2000
+        }).addTo(mymap);
+
+        console.log(circle._latlng)
+
+        // Try this one. Console log countriesVisited and inspect it in the browswer... Get used to doing this. Console logging is the best way to find out how your program works. Use it liberally to problem solve!
+
+        // console.log(countriesVisited)
+
+        //Inspect this object. What do you see?
+
+
+        var Global = "Hi"
+
+        // No matter where is employ Global it will always be "hi" even within a local context. This is what what 'const' and 'let' do. They make the variable tool more flexible. We won't worry about this for now as we don't want to take trip to cognitive overload city.
+
+
+        //ok now let's use a native JS method to give our program some meaning based on a condition. 
+
+        /*Use if to specify a block of code to be executed, if a specified condition is true
+        Use else to specify a block of code to be executed, if the same condition is false
+        Use else if to specify a new condition to test, if the first condition is false
+        Use switch to specify many alternative blocks of code to be executed*/
+
+        //if (condition) {
+        //  //  block of code to be executed if the condition is true
+        //}        
+
+        /* if (Class.Ready_To_Rock = true) {alert("louder")}*/
+
+        //This is an easy one. Uncomment it. If the condition is true (Class.Ready_To_Rock) then the JS method alert will tell you 'louder'!
+
+
+        /* var sign = prompt("What's your sign?");
+
+if (sign.toLowerCase() == "sagittarius") {
+  alert("Wow! I'm a one too!")}
+    else {alert("Lame")}*/
+
+        //This one is fun... a variable sign is a prompt that asks the user what their sign is. We only have one condition here but you could add others using 'else if'. Try it out. 
+
+        //essentially you are creating a set of instructions for the computer based on some condition or event... this can be on something as trivial as the date or a user input. The latter will be very helpful to us in the future.  
+
+        var d = new Date() // This is all in W3 schools - this is a native JS method - new and var are reserved JS keywords that we can't use as a variable name
+        var date = d.getDate() // We create a new date and then use the gateDate method to return a number of the date in this time zone. 
+        console.log(date) // This console statement gives us the name of the date. 
+
+
+
+        if (date < 10) {
+            var popup = "young in the game"
+        } // The first condition. 
+        else if (date < 20) {
+            var popup = "stuck in the middle"
+        } // anothe condition 
+        else {
+            var popup = "What happened?"
+        } // If the first two conditions aren't met
+
+        //The marker is created below and the popup for that marker is tied to a condition the date (this could be based on a user input)
+
+        var marker = L.marker([39.9526, -75.1652])
+            .bindPopup(popup)
+            .addTo(mymap);
+
+
+
+
+
+        // Finally let's see what do while statement does...
+        // Here we want something to keep on happening until it is no longer true. 
+
+
+        /* do {
+  code block to be executed
+}
+while (condition);*/
+
+
+        var result = ""; //an empty variable
+        var i = 0; // i will equal 0
+
+        do {
+            i = i + 1; // This is kind of like a for loop we will learn about in a few weeks. We keep on adding to the counter until i is equal to 5. It will print 1,2,3,4,5 on the console. It keeps on counting until it fails to meet the 'while' concept. Change the 5 to a higher number and see what happens. 
+            result = result + i;
+        } while (i < 5);
+
+        console.log(result);
+        // expected result: "12345"
+
+        // We can try this with a fun prompt example 
+
+        /*do {
+          var truth = prompt("Is the earth flat? Yes or No?")
+        } while (truth != "no");*/
+
+        //This acts as a guardian. You cannot get the map until the right yes in the console. 
+
+        //For a list of operators go here
+        //https://www.w3schools.com/jsref/jsref_operators.asp
+
+        //Challenge - what to hand in.
+
+        // For the B
+
+        //Create markers for 3 cities. Change the center and zoom to focus on these cities. These cities should be created from data organized into obects (as you see above in var class)
+
+        // The popup should have the name of the city and how far it is from Philadelphia. Please include this information as properties and values in the objects and reference them in the pop up with dot notation.
+
+        // // Use JS Math or a different JS Date Method to Create a Condition that determines what will popup for your cities. For example: You might want to have a popup that uses the month to determine the season. Your popup might look something like "In New York, which is 90 miles from Philly, it's winter" In this statement you will create an if/ else if statement to determine season and use dot notation from the objects to create the name of the city and how many miles it is from Philly. 
+
+        // For the A...
+
+        // Complete everything above and complete the following tasks: 
+
+        // Use a prompt and do/while statement to link user input to the popups in the map 
+        // For one of the cities change the color of the text in the popup to a color related to the city
+        // Give one of the cities an icon that represents the city (see the Leaflet Documentation)    
+
+    </script>
+
+</body>
+
+</html>

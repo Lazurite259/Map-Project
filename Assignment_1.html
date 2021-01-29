@@ -6,15 +6,18 @@ You will also complete the introduction to the JS section of Code Academy - See 
 
 What follows is an explanation of how the Leaflet Map works... Press the thunderbolt button on the right to see what the map looks like or simply look how these instructions are renedered in Canvas.-->
 
-<!DOCTYPE html> <!--Connects us the internet and makes sense text/syntax Instructions to the web browser about what version our HTML is written in-->
+<!DOCTYPE html>
+<!--Connects us the internet and makes sense text/syntax Instructions to the web browser about what version our HTML is written in-->
 <html>
 
-<head> <!--The Head is the foundation. Remember we are working over the web - therefore we need to communicate with/send instructions to external servers (Actually existing machines located somewhere in the world). The scripts below are content delivery networks and stylesheets - our ability to program is based on our connection to these networks. We are connecting to a server so we can send instructions to it-->
-   
-    
-    <meta charset=utf-8 />  <!--turns these letters into machine readable code-->
-    <title>Taipei</title>  
-    
+<head>
+    <!--The Head is the foundation. Remember we are working over the web - therefore we need to communicate with/send instructions to external servers (Actually existing machines located somewhere in the world). The scripts below are content delivery networks and stylesheets - our ability to program is based on our connection to these networks. We are connecting to a server so we can send instructions to it-->
+
+
+    <meta charset=utf-8 />
+    <!--turns these letters into machine readable code-->
+    <title>Taipei</title>
+
     <!-- 
 The title is what shows up in your browser tab. Live preview the map by clicking on the horizontal thunderbolt in the upper right corner of brackets. It should open a new brower window with grey map that contains a marker,    circle, and polygon. 
 
@@ -93,156 +96,152 @@ a) Your favorite song lyric. Since it is a string it must go in quotes console.l
 b) and try some math such as console.log(8+8)
 
 -->
-    
 
- <div id="mapid"></div>
-    
-<!--What's this. A div tag. You create a space on the map. Most web mapping libraries need a space (think of it as an empty placeholder, in which to put something) 
+
+    <div id="mapid"></div>
+
+    <!--What's this. A div tag. You create a space on the map. Most web mapping libraries need a space (think of it as an empty placeholder, in which to put something) 
     
 This div tag which we named 'mapid" has an ID, which means we will only be using this 
     place holder one time. It has special properties. We refer an ID as #. Scroll down to the style tags. Find #mapid. You will see that it has an absolute position. This means it will take up the entire screen. You can add headers and footers to the map - we will do that later in the semester. We are styling the empty place. You can go to elements in your browser developer tools (inspect) to take a closer look at it. -->
 
 
-<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
- <!-- Load Leaflet from CDN -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+    <!-- Load Leaflet from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
 
 
- <!--Connecting to the Leaflet External Server. The manual for writing instructions is     the API - maybe you have seen this before on some data repos. We also call it           documentation. Simply Google - Leaflet Documentations - It's a guide for making maps -   each JS library has a different one. Some of the same rules are common across     
+    <!--Connecting to the Leaflet External Server. The manual for writing instructions is     the API - maybe you have seen this before on some data repos. We also call it           documentation. Simply Google - Leaflet Documentations - It's a guide for making maps -   each JS library has a different one. Some of the same rules are common across     
    libaries. You probably don't understand what's going on yet but you will...
    You can combine libraries but remember you can't access them/right code for them without these links and an internet connection.
     -->
 
 
 
-    <style> /*This is CSS now - styling different elements on the webpage... Visit W3 schools for basic CSS rules.*/
-     
-      
-        
-     /*   All of these tags allow us to manipulate different parts of the map. Find the difference bwetween h1 and h2 in the header. They are different sizes. We can manipulate these categories further but they have defaults in HTML, which again can be found in W3 Schools. 
-        */
-        
-    /* This one is the most important ones - a div is an empty container. It creates a space on your webpage to put a map - this is what leaflet looks for when creating a map It's an ID which has special significance */
-        
-        #mapid { position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0; }
-        
-    
-      
-    
-        
-    </style> <!--The end of Style! Click on it to see where it begins. We call this process wrapping something in html tags-->
-    
-    
+    <style>
+        /*This is CSS now - styling different elements on the webpage... Visit W3 schools for basic CSS rules.*/
 
-   
-</head> <!--end of head - certain things belong here - certain don't - you will learn!-->
+
+
+        /*   All of these tags allow us to manipulate different parts of the map. Find the difference bwetween h1 and h2 in the header. They are different sizes. We can manipulate these categories further but they have defaults in HTML, which again can be found in W3 Schools. 
+        */
+
+        /* This one is the most important ones - a div is an empty container. It creates a space on your webpage to put a map - this is what leaflet looks for when creating a map It's an ID which has special significance */
+
+        #mapid {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+
+    </style>
+    <!--The end of Style! Click on it to see where it begins. We call this process wrapping something in html tags-->
+
+
+
+
+</head>
+<!--end of head - certain things belong here - certain don't - you will learn!-->
 
 <body>
-    
 
- <script> //This is where we do most of our work. This is for JS. Let's make a map in Leaflet!
 
-       var mymap = L.map('mapid').setView([25.033632956646965, 121.55317499857729], 15); 
-        
-/*var mymap... saves what comes after the equal sign. Think about a var or variable as a 
-     box. That box contains everything after the equals sign. The box has a name that we can refer to in the future. In this case we can refer the statement ' L.map('mapid').setView([51.505, -0.09], 13);' later in our program by simply invoking 'mymap'*/
-        
-//2. L.map refers to the Leaflet library we linked to above. It screams 'HEY LEAFLET I   
-     //GOT SOMETHING FOR YOU)
-        
-//3. 'mapid' is the required argument for creating a map in Leaflet - the div tag we   
-     //created above. We can place this map in the empty space we created before. 
-        
-/*4. .setView is a method of L.map. Now that we have a place for the map. We can create   
-     it, but we need to create a lat/long coordinate to center the map and a zoom level as well. How did we know how do this. Find the Leaflet Documentation (Just Google it) and use control + F to find these terms. There are instructions here for creating the map object. We are centering it on 51.505, -.09, which is located in square brackets - lat/lon coordinates generally are in Leaflet. */
-        
-/*Also note that there is a semicolon at the end of this line of code. This is a sign    
-     that you are done with this statement - it's closed and done for now. The semicolonin the right place doesn't really do anything but signify to humans that this is the end of something. We careful where you put it.*/
-        
-//5. Try manipulating the zoom of the map - change the numbers and save. What happens? Don't forget to control z back to the original zoom so we can see t
-        
-        
-      
+    <script>
+        //This is where we do most of our work. This is for JS. Let's make a map in Leaflet!
 
-        
-  var tiles = L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	maxZoom: 18,
-	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-});
-    mymap.addLayer(tiles);
-        
-/*//What's all of this! The basemap! L.Tilelayer governs the basemap and the last part is     a method or tool that adds this basemap to your map - which you stored with a     
-    variable 'mymap' There are tons of basemaps you can access - this one is from open street map, but you can find others on Mapbox - you'll need a free access token tough. Arc also has a lot of good ones that easy to use. You'll need the proper CDN link to access them */
+        var mymap = L.map('mapid').setView([25.033632956646965, 121.55317499857729], 15);
 
-// OK! Now let's start creating things on the map!   
-     
-var marker = L.marker([25.033632956646965, 121.55317499857729]).addTo(mymap); 
+        /*var mymap... saves what comes after the equal sign. Think about a var or variable as a 
+             box. That box contains everything after the equals sign. The box has a name that we can refer to in the future. In this case we can refer the statement ' L.map('mapid').setView([51.505, -0.09], 13);' later in our program by simply invoking 'mymap'*/
 
-/*We are creating a marker here using the 'HEY LEAFLET CAN I GET A MARKER' We give it a 
-  Lat/Lon argument (it's required to create the marker) and then we add it to the map - which we store with a variable. We are using a variable to a marker so we use it later if we want. Go to the documentation (Google Leaflet Documentation) and look up L.Marker. What kinds of things can we do with the marker?*/
-        
-var circle = L.circle([25.040248170748367, 121.55845104491364], { //We can create a circle as well. The circle is different than the marker. You see that we have a radius option. More about options, properties, and values next week when we learn about objects. Manipulate some of these options and see how your circle changes. Note that it also has a lat lon argument. 
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 1,
-    radius: 56
-}).addTo(mymap);
-     
-var circle = L.circle([25.040248170748367, 121.55845104491364], {
-    color: 'green',
-    fillColor: '#098765',
-    fillOpacity: 0.5,
-    radius: 112,
-    weight: 1
-}).addTo(mymap);
+        //2. L.map refers to the Leaflet library we linked to above. It screams 'HEY LEAFLET I   
+        //GOT SOMETHING FOR YOU)
 
-/*console.log(circle) */ 
-        
-var polygon = L.polygon([ //How is a polygon different than a circle? Why do we have 3 lat lon arguments instead of just one? 
-    [25.03671267815929, 121.53997138281214], 
-    [25.036238545668077, 121.53998612373559],
-    [25.036218511860508, 121.53837199261709],
-    [25.037086640521576, 121.53836830738624],
-    [25.037079962632223, 121.53877736801216],
-    [25.036695983384384, 121.53879579416648]
-]).addTo(mymap);
-        
-marker.bindTooltip("<b>Taipei</b><br>This is my home town.", {
-    
-}).openTooltip();//example of html - b and br represent something - what? 
-circle.bindTooltip("<b>This is my elementary school.</b>");
-polygon.bindTooltip("<b>This is my high school.</b>");
-        
-// Ahh these govern what pops up when the user clicks on the vector object. Marker, Circle, and Polygon refer to the variables we created above. These objects are further modfied with .bindpopup. The bindpopup method from leaflet modifies the the marker, circle, and polygon objects you created. This is the basic ebb and flow of using this JS library. 
-     
-    /* ------------------------------------------------*/
-        
-//Assignment - what you should hand in. Create a map with a circle, polygon, and marker. You will submit this (altered) .html file as your assignment. If you complete these tasks you will get a B on the lab. See below for A related tasks.
+        //3. 'mapid' is the required argument for creating a map in Leaflet - the div tag we   
+        //created above. We can place this map in the empty space we created before. 
 
-// 1. Change the center and zoom of the map to your home town
-// 2. Give the circle, polygon, and marker meaning. Put them in places important to you. Use the bindPopup method to name what these places are.
-// 3. Make the circle a different color than red and double it's size
-// 4. Change the Fill Opacity to 1
-        
-//For the A please accomplish 3 of the the following 4 tasks and then explain to the class how you did it the next time we meet. 
+        /*4. .setView is a method of L.map. Now that we have a place for the map. We can create   
+             it, but we need to create a lat/long coordinate to center the map and a zoom level as well. How did we know how do this. Find the Leaflet Documentation (Just Google it) and use control + F to find these terms. There are instructions here for creating the map object. We are centering it on 51.505, -.09, which is located in square brackets - lat/lon coordinates generally are in Leaflet. */
 
-//1. Change the popup to a tooltip using the Leaflet documentation. Explain in your presentation what the difference between a tooltip and a popup is. 
-//2. Make the text in the tooltip bold 
-//3. Add an property/value pair to the circle options. See the Leaflet documentation for details.  
-//4. Change the basemap! 
+        /*Also note that there is a semicolon at the end of this line of code. This is a sign    
+             that you are done with this statement - it's closed and done for now. The semicolonin the right place doesn't really do anything but signify to humans that this is the end of something. We careful where you put it.*/
 
-        
-        
-        
+        //5. Try manipulating the zoom of the map - change the numbers and save. What happens? Don't forget to control z back to the original zoom so we can see t
+
+
+
+
+
+        var tiles = L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        mymap.addLayer(tiles);
+
+        /*//What's all of this! The basemap! L.Tilelayer governs the basemap and the last part is     a method or tool that adds this basemap to your map - which you stored with a     
+            variable 'mymap' There are tons of basemaps you can access - this one is from open street map, but you can find others on Mapbox - you'll need a free access token tough. Arc also has a lot of good ones that easy to use. You'll need the proper CDN link to access them */
+
+        // OK! Now let's start creating things on the map!   
+
+        var marker = L.marker([25.033632956646965, 121.55317499857729]).addTo(mymap);
+
+        /*We are creating a marker here using the 'HEY LEAFLET CAN I GET A MARKER' We give it a 
+          Lat/Lon argument (it's required to create the marker) and then we add it to the map - which we store with a variable. We are using a variable to a marker so we use it later if we want. Go to the documentation (Google Leaflet Documentation) and look up L.Marker. What kinds of things can we do with the marker?*/
+
+        var circle = L.circle([25.040248170748367, 121.55845104491364], { //We can create a circle as well. The circle is different than the marker. You see that we have a radius option. More about options, properties, and values next week when we learn about objects. Manipulate some of these options and see how your circle changes. Note that it also has a lat lon argument. 
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 1,
+            radius: 56
+        }).addTo(mymap);
+
+        var circle = L.circle([25.040248170748367, 121.55845104491364], {
+            color: 'green',
+            fillColor: '#098765',
+            fillOpacity: 0.5,
+            radius: 112,
+            weight: 1
+        }).addTo(mymap);
+
+        /*console.log(circle) */
+
+        var polygon = L.polygon([ //How is a polygon different than a circle? Why do we have 3 lat lon arguments instead of just one? 
+            [25.03671267815929, 121.53997138281214],
+            [25.036238545668077, 121.53998612373559],
+            [25.036218511860508, 121.53837199261709],
+            [25.037086640521576, 121.53836830738624],
+            [25.037079962632223, 121.53877736801216],
+            [25.036695983384384, 121.53879579416648]
+        ]).addTo(mymap);
+
+        marker.bindTooltip("<b>Taipei</b><br>This is my home town.").openTooltip(); //example of html - b and br represent something - what? 
+        circle.bindTooltip("<b>This is my elementary school.</b>");
+        polygon.bindTooltip("<b>This is my high school.</b>");
+
+        // Ahh these govern what pops up when the user clicks on the vector object. Marker, Circle, and Polygon refer to the variables we created above. These objects are further modfied with .bindpopup. The bindpopup method from leaflet modifies the the marker, circle, and polygon objects you created. This is the basic ebb and flow of using this JS library. 
+
+        /* ------------------------------------------------*/
+
+        //Assignment - what you should hand in. Create a map with a circle, polygon, and marker. You will submit this (altered) .html file as your assignment. If you complete these tasks you will get a B on the lab. See below for A related tasks.
+
+        // 1. Change the center and zoom of the map to your home town
+        // 2. Give the circle, polygon, and marker meaning. Put them in places important to you. Use the bindPopup method to name what these places are.
+        // 3. Make the circle a different color than red and double it's size
+        // 4. Change the Fill Opacity to 1
+
+        //For the A please accomplish 3 of the the following 4 tasks and then explain to the class how you did it the next time we meet. 
+
+        //1. Change the popup to a tooltip using the Leaflet documentation. Explain in your presentation what the difference between a tooltip and a popup is. 
+        //2. Make the text in the tooltip bold 
+        //3. Add an property/value pair to the circle options. See the Leaflet documentation for details.  
+        //4. Change the basemap! 
 
     </script>
-    
+
 </body>
 
 </html>
