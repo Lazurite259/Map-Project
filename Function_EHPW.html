@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Lab 05 Example Template</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+</head>
+
+<body>
+
+
+    <script>
+        /* JavaScript code goes here! */
+
+        //Create an Object named phillyChips.
+        var phillyChips = {
+            Eagles: 1, 
+            Phillies: 2,
+            Flyers: 2,
+            Sixers: 3,
+            pop: 1341000
+        }
+
+        //Create an Object named dallasChips.
+        var dallasChips = {
+            Cowboys: 5,
+            Rangers: 0,
+            Stars: 1,
+            Mavericks: 1,
+            pop: 1581000
+        }
+
+
+        //Get the total amount of Philadelphia's championships with the function "championships", and store it to the variable "philadelphiaWon". The parameters are getting from "phillyChips" by the keys.
+        var philadelphiaWon = championships(phillyChips.Eagles, phillyChips.Phillies, phillyChips.Flyers, phillyChips.Sixers)
+        //Get the total amount of Dallas' championships with the function "championships", and store it to the variable "dallasWon". The parameters are getting from "dallasChips" by the keys.
+        var dallasWon = championships(dallasChips.Cowboys, dallasChips.Rangers, dallasChips.Stars, dallasChips.Mavericks)
+
+        
+        console.log(philadelphiaWon) //Print the value of "philadelphiaWon" to the console.
+        console.log(dallasWon) //Print the value of "dallasWon" to the console.
+
+        
+        //Get the value of Philadelphia's chip share with the function "perFan", and store it to the variable "phillyChipShare". Second parameter is getting from "phillyChips" by the key "pop".
+        var phillyChipShare = perFan(philadelphiaWon, phillyChips.pop)
+        //Get the value of Dallas' chip share with the function "perFan", and store it to the variable "dallasChipShare". Second parameter is getting from "dallasChips" by the key "pop".
+        var dallasChipShare = perFan(dallasWon, dallasChips.pop)
+
+        
+        console.log(phillyChipShare) //Print the value of "phillyChipShare" to the console.
+        console.log(dallasChipShare) //Print the value of "dallasChipShare" to the console.
+
+        
+        //Create a function "championships" with parameters "Football", "Baseball", "Hockey", and "Basketball" to calculate the total championships.
+        function championships(Football, Baseball, Hockey, Basketball) {
+            var total = Football + Baseball + Hockey + Basketball //Sum up
+            return total //To get a value after finishing the function.
+        }
+
+        
+        //Create a function "perFan" with parameters "a" and "b" to calculate the value of chip share.
+        function perFan(a, b) {
+            var division = a / b //"a" divided by "b"
+            var factor = 10000000 //Assign a value to "factor".
+            var chipShare = division * factor //Multiply "division" and "factor" to get "chipShare".
+            return chipShare //To get a value after finishing the function.
+        }
+    </script>
+
+</body></html>

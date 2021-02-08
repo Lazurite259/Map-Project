@@ -1,0 +1,175 @@
+<!--
+
+
+Instructions 
+
+Goals accomplished here:
+
+1. Create and Style a Button with user interaction. 
+2. Use a do/while statement to control the behavior of map 
+3. Create a program with several functions. Just follow your nose!
+4. Create 3 cities as objects that contain the following information as properties of an object: Geographic Coordinates (with square brackets), Population, and Area. 
+5. Create a function that will calculate population density for each city you chose using an if and else statement. The density will depend on what unit the user picked in the prompt.
+6. You'll be using if and else statements to help your program handle the user input of km or miles
+
+Help: 
+
+Create the data in objects first. This goes OUTSIDE any function and at the top of your program (right under the script tag)
+
+The first part is already done for you. I created the map the center, as well as the button/button behavior. I created the variable units while will store the choice of the user for miles or km. We will want to take this information with us. You will pass it as an argument to the mapCities function signature (where it will become the parameter 'units'). I created this for you as well (with the do/while statement that connects to a prompt). 
+
+In the mapCities function you will want to do the following: Create three variables. Each one will have the same function caller, but with different arguments (specific to the city you are focused on). You will pass 3 bits of information along for each density variable to a new function, which you should call calcPopDensity - you will pass population, area, and units as arguments from 3 function callers (one for each city) down to the new function signature you created 'calcPopDensity'. 
+
+So you should have three variables which represent 3 callers inside of mapCities. These callers will send down 3 arguments - where they will be accpeted as parameters in the CalcPopDensity function signature. Since you can use the same function signature as many times as you want with different bits of information (passed from different callers) you only need to state three parameters in the calcPopDensity function body - something like pop, area, and units.
+
+In this function body create an if/else statement based on what unit the user picked in the prompt (represented by unit or whatever you decided to call the information about the user's km/miles choice when it became a parameter in the calcPopDensity function signature) (if km... {} else if miles... {})
+
+Use return statements to passback the original values you created back to the original caller (represented by 3 different variables - density for each city)  
+
+The final step is to create the markers and popups in the MapCities function body. This should go under your callers which now have been imbued with return values from the calcPopDensity function. 
+
+You should create two variables for each city - one that governs the popup and one that creates the marker.
+
+Mine look like this...
+
+var bingPopup = "<b>" + "Binghamton" + "</b><br>" +
+               "<b>Density</b>: "+bingDensity.toLocaleString()+" people per sq " + units;
+            var bingMarker =
+                L.marker(Binghamton.coord)
+               .addTo(map)
+               .bindPopup(bingPopup);
+
+Let me explain how this works. 
+
+The popup is just the text. Notice the b tags. We put quotes around them and then use the plus sign to link different elements together. br only needs to appear once - this will create a line break. Density is the word Density - a string, bingDensity is the variable density that we calculated for each city using the calcPopDensity function. People per sq mile is a a string and the units refer to the km or miles decision the user made in the prompt. 
+
+We really don't need to store the marker values but it makes us easy to undestand what is going on. We use L.marker to create the Leaflet marker with the coordinates from the object you created. We use the addTo method to make it appear and finally we add the popup we created above. 
+
+
+FOR THE A: Add another scenario into the mix. Change the prompt, program, and density to account for another area unit (feet? Hectares? etc)
+-->
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset=utf-8 />
+    <title>Lab 3</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+  integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+  crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+  integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+  crossorigin=""></script>
+
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+        header {
+            padding: 6px 10%;
+        }
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+        button {
+            font-size: 1.2em;
+            margin-left: 10%;
+        }
+        /* Additional style rules go here! */
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Map Title</h1>
+        <h2>Map Subtitle</h2>
+    </header>
+
+    <div id='map'></div>
+    <button id='map-cities'>Map Cities</button>
+    <footer>
+        <p>Map authored by YOUR NAME</p>
+        <p>Additional information about the data and map goes here.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl.
+        </p>
+    </footer>
+
+<script>
+    
+    // map options
+    var options = {
+            center: [42.0986, -75.9183],
+            zoom: 6
+    }
+    
+    var map = L.map('map', options);
+        
+    var tiles = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+    map.addLayer(tiles);
+   
+
+   
+ 
+var button = document.getElementById("map-cities"); //Create button called map cities. references above in header along with div tag and styled as well...
+    
+    button.addEventListener("click", function() {
+        
+        do {
+            var units = prompt('Enter the units for calculating density', 'Enter "miles" or "km"');
+        } while (units != "miles" && units != "km");
+        
+        mapCities(units);
+        
+   }); // Adds behavior to button and stores with a variable - what will happen when the user clicks the button. It will keep on spitting the same message until they type km or miles 
+    
+   function mapCities(units) { 
+    
+       // A density variable for each city representes a caller which sends down three pieces of information - units that was passed in through the MapCities caller and the pop and area from the objects you created above
+       
+       
+       // Two Variables for each city. One for the popup - one for the marker (see above)
+       
+   }
+            
+// You will create the function signature for CalcPopDensity down here outside of the curly for MapCities
+          
+</script>
+    
+</body>
+
+</html>
+

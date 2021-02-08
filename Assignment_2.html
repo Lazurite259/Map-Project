@@ -62,6 +62,7 @@
             font-size: 1em;
             color: #343b41;
         }
+
     </style>
 
 
@@ -70,8 +71,8 @@
 
 <body>
     <header>
-        <h1>Default</h1>
-        <h2>Default</h2>
+        <h1>Assignment 2</h1>
+        <h2>Vinnie</h2>
         <!--Manipulate the Header and Footer-->
 
     </header>
@@ -82,8 +83,8 @@
 
 
     <footer>
-        <p>Default</p>
-        <p>Default</p>
+        <p>Assignment 2</p>
+        <p>Vinnie</p>
         <!--manipulate the p tags and change it from default-->
     </footer>
 
@@ -330,14 +331,15 @@
         } while (distance < 0 || distance > 1500)
 
         //Popup the marker which its distance from Philadelphia is under the input distance.
-        var array = Object.values(US);
-        var x = 0;
-        for (x in array) {
-            if (array[x]["distance"] < distance) {
-                console.log(x);
-                array[x]["marker"].openPopup();
+        for (let d in US) {
+            if (US[d].distance < distance) {
+                console.log(d);
+                US[d].marker.openPopup();
             }
         }
+
     </script>
 
-</body></html>
+</body>
+
+</html>
