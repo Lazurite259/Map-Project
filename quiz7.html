@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+
+    <meta charset=utf-8 />
+    <title>Quiz 7</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+
+
+
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+
+        header {
+            padding: 6px 10%;
+        }
+
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+
+        p {
+            font-size: 1em;
+            color: #001323;
+    </style>
+
+
+
+</head>
+
+<body>
+    <header>
+        <h1>Default</h1>
+        <h2>Default</h2>
+
+
+    </header>
+
+    <div id="map"></div>
+
+
+
+    <footer>
+        <p>Default</p>
+        <p>Default</p>
+    </footer>
+
+
+    <script>
+        var mymap = L.map('map', {
+            center: [39.9526, -75.1652],
+            zoom: 5
+        });
+
+        var mapLink =
+            '<a href="http://openstreetmap.org">OpenStreetMap</a>'; // Different Base Map!
+        var tiles = L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; ' + mapLink + ' Contributors',
+                maxZoom: 18,
+            })
+        tiles.addTo(mymap);
+
+        var whCities =
+
+            ["Elkton", "Lancaster", "Dover"]
+
+        var wflatlon = [
+
+            [39.6728081, -75.8695076],
+            [40.0380578, -76.2931562],
+            [39.6849628, -76.0576485]
+
+        ]
+
+
+        // Look at this! It's a for loop which creates the waffle houses. nice. When you mouseover the circles they grow
+        // Add user interactivity... when the user mouses out the circle should go back to thier original size... 
+        // add new user interactivity and use that setRadius method to get the circle back to normal size when the user mouses out
+
+
+
+        for (var i = 0; i < wflatlon.length; i++) {
+
+            var radius = 100000
+
+            var circ = L.circle(wflatlon[i], {
+                radius: radius,
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.1
+            }).addTo(mymap);
+
+            circ.on('mouseover', function(e) {
+                circ.setRadius(500000);
+            });
+
+            circ.on('mouseout', function(e) {
+                circ.setRadius(radius);
+            });
+        }
+    </script>
+
+</body></html>

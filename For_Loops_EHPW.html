@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Explain How This Works 2</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+
+        header {
+            padding: 6px 10%;
+        }
+
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+
+        /* Additional style rules go here! */
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Map Title</h1>
+        <h2>Map Subtitle</h2>
+    </header>
+
+    <div id='map'></div>
+
+    <footer>
+        <p>Map authored by YOUR NAME</p>
+
+    </footer>
+
+    <script>
+        //Declare variables.
+        var map;
+        var targetDiv = 'map';
+
+        var options = {
+            center: [38.9072, -77.369], //STEP 1
+            zoom: 7
+        }
+        //Set the map.
+        map = L.map(targetDiv, options);
+        var tiles = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+        });
+        map.addLayer(tiles);
+
+
+        //Create an array called "cities" storing the name of the cities.
+        var cities = ["Washington", "New York", "Philadelphia"];
+
+        //Create an array called "cityCoords" storing the coordinates of the cities.
+        var cityCoords = [ //STEP 3
+            [38.9072, -76.369],
+            [40.7128, -74.0059],
+            [39.9526, -75.1652]
+        ];
+
+        //Create an array called "cityPops" storing the population of the cities.
+        var cityPops = [658893, 8491079, 1560297];
+
+        //Create an array called "cityCapital" storing if the city is the capital city.
+        var cityCapital = [true, false, false];
+
+        //Using for loop to run the elements in the array in order.
+        for (var i = 0; i < cities.length; i++) { //Start from the first element, i+1 after each loop, when i equals the length of "cities", for loop stops.
+
+            //Set a variable "popup" to store the elements of "cities" and "cityPops" at location i to a string.
+            var popup = "<b>" + cities[i] + "</b><br>" + "<b>population</b>: " + cityPops[i].toLocaleString();
+
+            //If "cityCapital" stores "true" at location i, add the string below to that city's string "popup".
+            if (cityCapital[i] == true) {
+                popup += "<br>Is the capital city.";
+            }
+
+            //Add the string "popup" to the popup window of that city's marker.
+            L.marker([cityCoords[i][0], cityCoords[i][1]])
+                .addTo(map)
+                .bindPopup(popup);
+        }
+
+    </script>
+
+</body>

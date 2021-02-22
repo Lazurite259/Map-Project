@@ -1,5 +1,5 @@
 <!--
-
+TUTORIAL WILL BE TO WATCH FUNCTION VIDEOS AND EXPLAIN HOW THE NUMS EXAMPLE WORKS!
 
 Instructions 
 
@@ -14,19 +14,15 @@ Goals accomplished here:
 
 Help: 
 
-Create the data in objects first. This goes OUTSIDE any function and at the top of your program (right under the script tag)
+The first part is already done for you. I created the map the center, as well as the button/button behavior. I created the variable units while will store the choice of the user for miles or km. We will want to take this information with us. You will pass it as an argument to the Map Cities function signature. I created this for you as well. 
 
-The first part is already done for you. I created the map the center, as well as the button/button behavior. I created the variable units while will store the choice of the user for miles or km. We will want to take this information with us. You will pass it as an argument to the mapCities function signature (where it will become the parameter 'units'). I created this for you as well (with the do/while statement that connects to a prompt). 
+In the map cities function you will want to do the following: Create three variables in the map cities function. One for each cities density. You will pass 3 bits of information along for each density variable to a new function, which you should call calcPopDensity - the population, area, and units, which you took from before. 
 
-In the mapCities function you will want to do the following: Create three variables. Each one will have the same function caller, but with different arguments (specific to the city you are focused on). You will pass 3 bits of information along for each density variable to a new function, which you should call calcPopDensity - you will pass population, area, and units as arguments from 3 function callers (one for each city) down to the new function signature you created 'calcPopDensity'. 
+So you should have three variables in which you pass three different arguments to the same calcPopDensity function body. Since you can use the same function as many times as you want with different bits of information you only need to state three parameters in your function body - something like pop, area, and units.
 
-So you should have three variables which represent 3 callers inside of mapCities. These callers will send down 3 arguments - where they will be accpeted as parameters in the CalcPopDensity function signature. Since you can use the same function signature as many times as you want with different bits of information (passed from different callers) you only need to state three parameters in the calcPopDensity function body - something like pop, area, and units.
+In this function body create an if else statement based on what unit the user picked (represented by unit) In one case you should calculate density for miles in another density for km (if km... {} else if...)
 
-In this function body create an if/else statement based on what unit the user picked in the prompt (represented by unit or whatever you decided to call the information about the user's km/miles choice when it became a parameter in the calcPopDensity function signature) (if km... {} else if miles... {})
-
-Use return statements to passback the original values you created back to the original caller (represented by 3 different variables - density for each city)  
-
-The final step is to create the markers and popups in the MapCities function body. This should go under your callers which now have been imbued with return values from the calcPopDensity function. 
+Return the different possibilities to the variable from which it was sent. The final step is to create the markers and popups in the MapCities function body. 
 
 You should create two variables for each city - one that governs the popup and one that creates the marker.
 
@@ -44,9 +40,6 @@ Let me explain how this works.
 The popup is just the text. Notice the b tags. We put quotes around them and then use the plus sign to link different elements together. br only needs to appear once - this will create a line break. Density is the word Density - a string, bingDensity is the variable density that we calculated for each city using the calcPopDensity function. People per sq mile is a a string and the units refer to the km or miles decision the user made in the prompt. 
 
 We really don't need to store the marker values but it makes us easy to undestand what is going on. We use L.marker to create the Leaflet marker with the coordinates from the object you created. We use the addTo method to make it appear and finally we add the popup we created above. 
-
-
-FOR THE A: Add another scenario into the mix. Change the prompt, program, and density to account for another area unit (feet? Hectares? etc)
 -->
 
 
@@ -55,7 +48,7 @@ FOR THE A: Add another scenario into the mix. Change the prompt, program, and de
 
 <head>
     <meta charset=utf-8 />
-    <title>Lab 3</title>
+    <title>Assignment 4</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
@@ -110,46 +103,25 @@ FOR THE A: Add another scenario into the mix. Change the prompt, program, and de
         }
 
         /* Additional style rules go here! */
-
     </style>
 </head>
 
 <body>
     <header>
-        <h1>Assignment 3</h1>
-        <h2>Vinnie Hsia</h2>
+        <h1>Assignment 4</h1>
+        <h2>Show the Cities' Density</h2>
     </header>
 
     <div id='map'></div>
     <button id='map-cities'>Map Cities</button>
     <footer>
-        <p>Map authored by Vinnie</p>
-        <p>Additional information about the data and map goes here.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl.
+        <p>Map authored by Vinnie Hsia</p>
+        <p>Details of interactive methods</p>
+        <p>Zoom to the marker when the mouse enters the marker.<br>Zoom out when the mouse leaves the map.<br>Double click on the map to alert the coordinates of the place.<br>Click on the map to add a new marker.<br>Click on the new marker to remove it.<br>The new marker disappear when stop dragging it.
         </p>
     </footer>
 
     <script>
-        //Create 3 cities as objects.
-        var Houston = {
-            coordinates: [29.725095416908154, -95.37936835679633],
-            population: 2320268,
-            area: 1651.1 //km
-        }
-
-        var NewYork = {
-            coordinates: [40.757706050108006, -74.02435282754624],
-            population: 8336817,
-            area: 780.9
-        }
-
-        var Chicago = {
-            coordinates: [41.90421669387604, -87.62678958879816],
-            population: 2693976,
-            area: 588.7
-        }
-
-
         // map options
         var options = {
             center: [36.129766073231515, -84.50700187125538],
@@ -164,49 +136,54 @@ FOR THE A: Add another scenario into the mix. Change the prompt, program, and de
         });
         map.addLayer(tiles);
 
-
-
-
         var button = document.getElementById("map-cities"); //Create button called map cities. references above in header along with div tag and styled as well...
 
         button.addEventListener("click", function() {
-
             do {
                 var units = prompt('Enter the units for calculating density', 'Enter "hectare", "miles" or "km"');
             } while (units != "miles" && units != "km" && units != "hectare");
 
             mapCities(units);
-
         }); // Adds behavior to button and stores with a variable - what will happen when the user clicks the button. It will keep on spitting the same message until they type km or miles 
 
+        //Use arrays instead of objects
+        var citiesName = ["Houston", "New York", "Chicago"];
+        var citiesCoordinates = [
+            [29.725095416908154, -95.37936835679633],
+            [40.757706050108006, -74.02435282754624],
+            [41.90421669387604, -87.62678958879816]
+        ]
+        var citiesPopulation = [2320268, 8336817, 2693976]
+        var citiesArea = [1651.1, 780.9, 588.7] //sq km
+
         function mapCities(units) {
-            // A density variable for each city representes a caller which sends down three pieces of information - units that was passed in through the MapCities caller and the pop and area from the objects you created above
-            var densityHouston = CalcPopDensity(Houston.population, Houston.area, units);
-            var densityNewYork = CalcPopDensity(NewYork.population, NewYork.area, units);
-            var densityChicago = CalcPopDensity(Chicago.population, Chicago.area, units);
-
-            if (units == "km" || units == "miles") {
-                units = "sq " + units;
+            // Create a for loop to set all the markers
+            for (let i = 0; i < citiesName.length; i++) {
+                if (units == "km" || units == "miles") {
+                    units = "sq " + units;
+                }
+                var density = CalcPopDensity(citiesPopulation[i], citiesArea[i], units);
+                var popup = "<b>" + citiesName[i] + "<br>Density</b>: " + density + " people per " + units;
+                var marker = L.marker(citiesCoordinates[i]).addTo(map).bindPopup(popup);
+                marker.on('mouseover', function(e) {
+                    // Zoom to the marker when mousedown on the marker
+                    map.setView(e.latlng, 15);
+                })
+                map.on('mouseout', function(e) {
+                    // Zoom back to the whole view when mouseup on the map
+                    map.setView([36.129766073231515, -84.50700187125538], 5);
+                })
             }
-            // Two Variables for each city. One for the popup - one for the marker (see above)
-            var popupHouston = "<b>Houston</b><br><b>Density</b>: " + densityHouston.toLocaleString() + " people per " + units;
-            var popupNewYork = "<b>New York</b><br><b>Density</b>: " + densityNewYork.toLocaleString() + " people per " + units;
-            var popupChicago = "<b>Chicago</b><br><b>Density</b>: " + densityChicago.toLocaleString() + " people per " + units;
-
-            var markerHouston = L.marker(Houston.coordinates).addTo(map).bindPopup(popupHouston);
-            var markerNewYork = L.marker(NewYork.coordinates).addTo(map).bindPopup(popupNewYork);
-            var markerChicago = L.marker(Chicago.coordinates).addTo(map).bindPopup(popupChicago);
-
         }
 
         // You will create the function signature for CalcPopDensity down here outside of the curly for MapCities
         function CalcPopDensity(population, area, units) {
             const KM_TO_MILES = 0.621371;
             const KM_TO_HECTARE = 100;
-            var density
-            if (units == "km") {
+            var density;
+            if (units == "sq km") {
                 density = Math.round(population / area);
-            } else if (units == "miles") {
+            } else if (units == "sq miles") {
                 density = Math.round(population / (area * Math.pow(KM_TO_MILES, 2)));
             } else if (units == "hectare") {
                 density = Math.round(population / (area * KM_TO_HECTARE));
@@ -214,8 +191,43 @@ FOR THE A: Add another scenario into the mix. Change the prompt, program, and de
             return density;
         }
 
+        map.on('dblclick', function(e) {
+            // Alert the coordinates when double click on the map
+            alert(e.latlng);
+        });
+
+        map.on('click', function(e) {
+            // Add a marker when click on the map
+            var marker = L.marker(e.latlng, {
+                draggable: true
+            }).addTo(map);
+            marker.on('click', function(e) {
+                // Remove the marker when click on the marker
+                marker.remove();
+            });
+            marker.on('dragend', function(e) {
+                // Remove the marker when stop dragging
+                marker.remove();
+            })
+        })
+
+        // For the B
+
+        // Part I For the assignment this week please turn in the solution from last week (Map Cities function) 
+
+        // 1. Use arrays instead of objects to structure your data 
+        // 2. Use a for loop strucutre to make your program more efficient. 
+
+        // part 2 
+
+        // Add 2 user interactivity map methods and 2 user interactivity marker methods from Leaflet to a three city marker map (you can use circles as well).
+
+        // For the A 
+
+        // Create a map in which the user creates a marker through a click 
+        // remove the marker when user clicks again 
+        // Create a 'drag end' event on this marker
+        // Make the marker dissapear when the user stops dragging.
     </script>
 
-</body>
-
-</html>
+</body></html>
