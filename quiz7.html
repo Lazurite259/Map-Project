@@ -113,6 +113,7 @@
 
 
 
+        let circles=[];
         for (var i = 0; i < wflatlon.length; i++) {
 
             var radius = 100000
@@ -124,12 +125,14 @@
                 fillOpacity: 0.1
             }).addTo(mymap);
 
-            circ.on('mouseover', function(e) {
-                circ.setRadius(500000);
+            circles.push(circ);
+            
+            circles[i].on('mouseover', function(e) {
+                circles[i].setRadius(500000);
             });
 
-            circ.on('mouseout', function(e) {
-                circ.setRadius(radius);
+            circles[i].on('mouseout', function(e) {
+                circles[i].setRadius(radius);
             });
         }
     </script>
