@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>Describe How the Assignment Works</title>
+    <title>Assignment 5</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
@@ -54,22 +54,22 @@
 
 <body>
     <header>
-        <h1>Map Title</h1>
-        <h2>Map Subtitle</h2>
+        <h1>Schools</h1>
+        <h2>High School in Philadelphia</h2>
     </header>
 
     <div id='map'></div>
 
     <footer>
-        <p>Map authored by YOUR NAME</p>
+        <p>Map authored by Vinnie Hsia</p>
         <p>Additional information about the data and map goes here.</p>
     </footer>
 
-    <script src="power-plants.js"></script>
+    <script src="schools.js"></script>
     <script>
         var map = L.map('map', {
-            center: [36, -94],
-            zoom: 4,
+            center: [39.9526, -75.1652],
+            zoom: 10,
         });
 
         var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
@@ -80,39 +80,31 @@
 
         tiles.addTo(map);
 
-        //Parse the geoJson data "plants" and display on the map.
-        L.geoJson(plants, {
-            //Add geoJson features and latlng to the layer and show the points on the map with circleMarkers.
+        L.geoJson(schools, {
             pointToLayer: function(feature, latlng) {
-                console.log(feature.properties);
-                console.log(latlng);
                 return L.circleMarker(latlng, {
                     color: 'orange',
                     weight: 2,
                     fillColor: 'yellow',
                     fillOpacity: .5,
-                    radius: getRadius(feature.properties.capacity_mw) //step4
+                    radius: 8 //step4
                 });
             },
 
-            //Filter out the places which their fuel source is nuclear.
             filter: function(feature, layer) {
-                if (feature.properties.fuel_source.Nuclear) {
+                if (feature.properties.GRADE_LEVEL === "HIGH SCHOOL") {
                     return true
                 };
                 console.log(feature);
             },
 
             //step 5
-            //Add events on each features.
             onEachFeature: function(feature, layer) {
-                //When mouseover, the circle comes red.
                 layer.on('mouseover', function() {
                     layer.setStyle({
                         fillColor: 'red'
                     });
                 });
-                //When mouseout, the circle turns back to yellow.
                 layer.on('mouseout', function() {
                     layer.setStyle({
                         fillColor: 'yellow'
@@ -120,23 +112,14 @@
                 });
 
                 //step 6  
-                //To set the feature's plant name, capacity, and feul source to new variables.
-                var name = feature.properties.plant_name
-                var capacity = feature.properties.capacity_mw.toLocaleString()
-                var fuel = feature.properties.fuel_source
+                var name = feature.properties.SCHOOL_NAME;
+                var phone = feature.properties.PHONE_NUMBER;
+                var address = feature.properties.STREET_ADDRESS;
 
-                //Set a variable "popup".
-                var popup = ("<b>" + name + "</b><br>" + capacity + " MW" + "<br>")
-                //When click on the feature, then popup it's name and capacity.
+                var popup = ("<b>" + name + "</b><br>" + address + "<br>" + phone);
                 layer.bindPopup(popup)
             }
         }).addTo(map);
-
-        //Create a function with a parameter "area" to calculate the radius of the circleMarker.
-        function getRadius(area) {
-            var radius = Math.sqrt(area / Math.PI);
-            return radius * .6
-        }
     </script>
 
 </body></html>
