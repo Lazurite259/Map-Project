@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset=utf-8 />
+    <title>Question 3</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+
+        header {
+            padding: 6px 10%;
+        }
+
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+
+        #map {
+            width: 80%;
+            height: 620px;
+            margin: 10px auto;
+        }
+
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+
+        p {
+            font-size: 1em;
+            color: #001323;
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>The Marker Game</h1>
+        <h2>Find the hidden location</h2>
+    </header>
+
+    <div id="map"></div>
+
+    <footer>
+        <p>Map authored by Vinnie Hsia</p>
+        <p>If your current location to hidden location is <b>within 500 miles</b>, you will get a message "<font color="red">You found it!</font>"<br>
+            If your current location to hidden location is <b>between 500 and 3000 miles</b>, you will get a message "<font color="orange">You are very close to it!</font>"<br>
+            If your current location to hidden location is <b>between 3000 and 7000 miles</b>, you will get a message "<font color="green">You are close to it!</font>"<br>
+            If your current location to hidden location is <b>between 7000 and 10000 miles</b>, you will get a message "<font color="blue">You are far away from it!</font>"<br>
+            If your current location to hidden location is <b>greater than 10000 miles</b>, you will get a message "<font color="black">You are too far away from it!</font>"
+        </p>
+    </footer>
+
+    <script>
+        var map = L.map('map', {
+            center: [36, -94],
+            zoom: 2
+        });
+
+        var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.{ext}', {
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>',
+            subdomains: 'abcd',
+            minZoom: 0,
+            maxZoom: 18,
+            ext: 'png'
+        }).addTo(map);
+
+        var hiddenLocation = L.marker([37.61092534891458, 13.951123014497256], {
+            icon: L.icon({
+                iconUrl: 'https://img.pngio.com/gun-pistol-weapon-icon-free-gun-png-images-512_512.png',
+                iconSize: [35, 35]
+            }),
+            opacity: 0,
+            interactive: false
+        }).addTo(map);
+
+        var markers = L.layerGroup().addTo(map);
+
+        map.on('click', function(e) {
+            markers.clearLayers();
+            var clickMarker = L.marker(e.latlng).addTo(markers);
+            var distance = calculateDistance(hiddenLocation.getLatLng(), clickMarker.getLatLng());
+            console.log(distance);
+
+            var popup;
+            if (distance < 500) {
+                popup = "<p style='color:red'>You found it!";
+                hiddenLocation.setOpacity(1);
+                clickMarker.setOpacity(0);
+            } else if (distance >= 500 && distance < 3000) {
+                popup = "<p style='color:orange'>You are very close to it!";
+            } else if (distance >= 3000 && distance < 7000) {
+                popup = "<p style='color:green'>You are close to it!";
+            } else if (distance >= 7000 && distance < 10000) {
+                popup = "<p style='color:blue'>You are far away from it!";
+            } else {
+                popup = "<p style='color:black'>You are too far away from it!";
+            }
+            clickMarker.bindPopup(popup).openPopup();
+        });
+
+        function calculateDistance(goal, click) {
+            const meterToMile = 1609.34;
+            var distance = goal.distanceTo(click) / meterToMile
+            return distance;
+        }
+    </script>
+
+</body></html>

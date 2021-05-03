@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+
+        header {
+            position: absolute;
+            left: 10%;
+        }
+
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+
+        #map {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 600px;
+            margin: 10px auto;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Schools and Power Plants</h1>
+        <h2>Distance and Amount</h2>
+    </header>
+
+    <div id='map'></div>
+
+    <footer>
+        <p>Map authored by Vinnie Hsia</p>
+        <p>Mouseover the locations to see their names.<br>Click a school to see the nearest power plant and the distance between the school and the power plant.<br>Click a power plant to see the schools within 2 kilometers of the power plant.</p>
+    </footer>
+
+    <script src="schools.js"></script>
+    <script src="power-plants.js"></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoidHVuODA5MTYiLCJhIjoiY2ttYjZiM2k5MTk2cTJucWY4aHRzeThvcyJ9.-1Ngs7P4rLgzuOzldmza1g';
+
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/light-v10',
+            center: [-75.1652, 39.9526],
+            zoom: 11
+        });
+
+        map.on('load', function() {
+            map.addLayer({
+                id: 'schools',
+                type: 'symbol',
+                source: {
+                    type: 'geojson',
+                    data: schools
+                },
+                layout: {
+                    'icon-image': 'school-15',
+                    'icon-allow-overlap': true
+                },
+                paint: {}
+            });
+            map.addLayer({
+                id: 'plants',
+                type: 'symbol',
+                source: {
+                    type: 'geojson',
+                    data: plants
+                },
+                layout: {
+                    'icon-image': 'fuel-15'
+                },
+                paint: {}
+            });
+
+            var popup = new mapboxgl.Popup();
+
+            map.on('mousemove', function(e) {
+                var features = map.queryRenderedFeatures(e.point, {
+                    layers: ['schools', 'plants']
+                });
+                if (!features.length) {
+                    popup.remove();
+                    return;
+                }
+                var feature = features[0];
+
+                if (feature.layer.id == "schools") {
+                    popup.setLngLat(feature.geometry.coordinates)
+                        .setHTML(feature.properties.SCHOOL_NAME)
+                        .addTo(map);
+                } else if (feature.layer.id == "plants") {
+                    popup.setLngLat(feature.geometry.coordinates)
+                        .setHTML(feature.properties.plant_name)
+                        .addTo(map);
+                }
+
+                map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+            });
+
+            map.addSource('nearest-plant', {
+                type: 'geojson',
+                data: {
+                    type: 'FeatureCollection',
+                    features: []
+                }
+            });
+
+            map.on('click', function(e) {
+                var schoolFeatures = map.queryRenderedFeatures(e.point, {
+                    layers: ['schools']
+                });
+                if (!schoolFeatures.length) {
+                    return;
+                }
+                var schoolFeature = schoolFeatures[0];
+
+                var nearestPlant = turf.nearest(schoolFeature, plants);
+
+                if (nearestPlant !== null) {
+                    map.getSource('nearest-plant').setData({
+                        type: 'FeatureCollection',
+                        features: [
+                            nearestPlant
+                        ]
+                    });
+
+                    map.addLayer({
+                        id: 'nearest-plant',
+                        type: 'circle',
+                        source: 'nearest-plant',
+                        paint: {
+                            'circle-radius': 12,
+                            'circle-color': '#620317'
+                        }
+                    }, 'plants');
+
+                    var from = schoolFeature.geometry.coordinates;
+                    var to = nearestPlant.geometry.coordinates;
+                    var distance = turf.distance(from, to);
+                    popup.setLngLat(to)
+                        .setHTML(nearestPlant.properties.plant_name + "<br>Distance: " + distance + " km");
+                    popup.openPopup();
+                }
+            });
+
+            map.addSource('buffered-plant', {
+                type: 'geojson',
+                data: {
+                    type: 'FeatureCollection',
+                    features: []
+                }
+            });
+
+            var intersected = {
+                type: 'FeatureCollection',
+                features: []
+            }
+            map.addSource('intersect-schools', {
+                type: 'geojson',
+                data: intersected
+            })
+
+            map.on('click', function(e) {
+                var plantFeatures = map.queryRenderedFeatures(e.point, {
+                    layers: ['plants']
+                });
+                if (!plantFeatures.length) {
+                    return;
+                }
+
+                var plantFeature = plantFeatures[0];
+                var buffered = turf.buffer(plantFeature, 2);
+
+                if (buffered !== null) {
+                    map.getSource('buffered-plant').setData({
+                        type: 'FeatureCollection',
+                        features: [
+                            buffered
+                        ]
+                    });
+
+                    map.addLayer({
+                        'id': 'buffered-plant',
+                        'type': 'fill',
+                        'source': 'buffered-plant',
+                        'paint': {
+                            'fill-color': '#B0E0E6',
+                            'fill-opacity': 0.5
+                        }
+                    }, 'plants');
+
+                    var schoolsFearture = map.getSource('schools')._data.features;
+
+                    intersected = {
+                        type: 'FeatureCollection',
+                        features: []
+                    }
+
+                    for (i = 0; i < schoolsFearture.length; i++) {
+                        var point = schoolsFearture[i];
+                        if (turf.booleanPointInPolygon(point, buffered)) {
+                            intersected.features.push(point);
+                        }
+                    }
+
+                    map.getSource('intersect-schools').setData(intersected);
+
+                    map.addLayer({
+                        id: 'intersect-schools',
+                        type: 'circle',
+                        source: 'intersect-schools',
+                        paint: {
+                            'circle-radius': 12,
+                            'circle-color': '#EE82EE'
+                        }
+                    }, 'schools');
+
+                    popup.setLngLat(plantFeature.geometry.coordinates).setHTML("<br>Schools around: " + intersected.features.length);
+                    popup.openPopup();
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

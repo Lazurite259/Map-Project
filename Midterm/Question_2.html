@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset=utf-8 />
+    <title>Question 2</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+
+        header {
+            padding: 6px 10%;
+        }
+
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+
+        p {
+            font-size: 1em;
+            color: #001323;
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>World Populations</h1>
+        <h2>Whole World</h2>
+    </header>
+
+    <div id="map"></div>
+
+    <footer>
+        <p>Map authored by Vinnie Hsia</p>
+        <p>When mouseovers a circle, shows the 'stroke'. The circle go back to 'strokeless state' when mouseouts.
+            <br>Click on the circle to show its name and population.
+        </p>
+    </footer>
+
+    <script src="populated-places.js"></script>
+    <script>
+        var map = L.map('map', {
+            center: [0, 0],
+            zoom: 2
+        });
+
+        var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+        var tiles = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; ' + mapLink + ' Contributors',
+            maxZoom: 18,
+        }).addTo(map);
+
+        L.geoJson(places, {
+            pointToLayer: function(feature, latlng) {
+                console.log(feature);
+                return L.circleMarker(latlng, {
+                    stroke: false,
+                    color: 'red',
+                    weight: 2,
+                    fillColor: 'orange',
+                    fillOpacity: .5,
+                    radius: getRadius(feature.properties.POP_MAX)
+                });
+            },
+
+            onEachFeature: function(feature, layer) {
+                layer.on('mouseover', function() {
+                    layer.setStyle({
+                        stroke: true
+                    });
+                });
+                layer.on('mouseout', function() {
+                    layer.setStyle({
+                        stroke: false
+                    });
+                });
+
+                var name = feature.properties.NAME;
+                var population = feature.properties.POP_MAX;
+                var popup = ("<b>" + name + "</b><br>" + population + "<br>");
+                layer.bindPopup(popup);
+            }
+        }).addTo(map);
+
+        function getRadius(pop) {
+            var radius = Math.sqrt(pop / Math.PI);
+            return radius * 0.01;
+        }
+    </script>
+
+</body></html>

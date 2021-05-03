@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Question 5</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+
+        header {
+            padding: 6px 10%;
+        }
+
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+
+        green {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>
+            <green>Avocado Prices</green>
+        </h1>
+        <h2>Stores in Girard, Passyunk, and Lombard</h2>
+    </header>
+
+    <div id='map'></div>
+
+    <footer>
+        <p>Map authored by Vinnie Hsia</p>
+        <p>The price of avocados will increase by 2 dollars if priceChange is 2 or greater.</p>
+    </footer>
+
+    <script>
+        var map = L.map('map', {
+            center: [39.969032, -75.138913],
+            zoom: 12
+        });
+
+        var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        var market = ['Girard', 'Passyunk', 'Lombard']
+        var latlng = [
+            [39.969032, -75.138913],
+            [39.934021, -75.162782],
+            [39.944032, -75.159306]
+        ]
+        var priceChange = Math.round(Math.random() * 10 / 3);
+        var price = [1.50, 1.25, 1.75];
+        var priceBefore = [1.50, 1.25, 1.75];
+
+        console.log(priceChange);
+        if (priceChange >= 2) {
+            alert("The price of avocados has increased - adjust accordingly.");
+        }
+
+        for (let i = 0; i < market.length; i++) {
+            var popup = "<b>" + market[i] + "</b><br>Original price: <green>" + priceBefore[i] + "</green><br>";
+            var marker = L.marker(latlng[i]).addTo(map);
+            if (priceChange >= 2) {
+                popup += "New price: <green>" + (price[i] + 2) + "</green><br>";
+            } else {
+                popup += "There is no change in the price of avocados.";
+            }
+            marker.bindPopup(popup);
+        }
+
+
+        // PART 5: YOU OWN 3 ACME STORES IN PHILADELPHIA - YOU WANT TO CREATE POPUPS FOR EACH STORE LOCATION - THE POPUP WILL INFORM THE STORE MANAGER IF THEY SHOULD RAISE THE PRICE OF AVACADOS AND BY HOW MUCH! 
+
+        // The Price of avacados will be determined by the statement above (priceChange) which randomizes the price per unit on page reload. I created a randomizer that will make sense given the current price of avacados. See above (priceBefore) for the current price of Avacados. I also included the names for each store as well as the lattitude and longitude coordinates. Ther is a dummy variable that will help you accomplish the program.
+
+
+        // Please Build a program that increases the price of avacados by 2 dollars if priceChange is 2 or greater (priceChange will generate a random number which is either greater or less than 2. You will want to create 2 different popups depending on the outcome of priceChange).
+        //To guide you in the process I created a dummy variable. In your pop up you will want to distinguish between the original price of Avacados - and what happens if the priceChange is higher than 2 (a 2 dollar increase in the price of avacados).
+
+        // Before you start it's probably a good idea to console.log priceChange and reload your page a few times to get a grasp of what I mean.
+
+        // Included for you by me:
+        // Names of Stores
+        // Coordinates 
+        //priceChange - a random number generator - if this number is great than 2 you will want to add 2 dollars to the price of Avacdaos in the popup. If it is less the price of Avacados will not change.
+        // priceBefore - an array that is the price of avacados at each store 
+        // price - a dummy variable that will help you create the increasing price of Avacados.
+
+
+        // The popup for each locations should provide the following information: PLEASE INCLUDE NUMBERS 1 - 5 IN YOUR FINAL PROGRAM
+        // 1. In the Popup - The name of Market (The location of the ACME in a string - something like Girard)
+        // 2. In the Popup - The value of the original Avacado Price in Green 
+        // 3. The value of the updated Avacado Price in Green (if priceChange the random number generator is above 2)
+        // 4. If there is no change in the original avacado price (priceChange the random number generator is below 2) - create a string that indicates "There is no change in the price of Avacados" instead of the updated price of avacodos. In either case the pop up should have the name and the original price. 
+        // Hint: The updated Avacado price will be based on the random number generator calculated in the priceChange variable. This popup should be different depending on if the number generated is below or above 2. If it is below 2 then the original and updated price of the avacado will be the same. One line in the pop up will read the original Avacado price. The next line should spit back something like  "no change in price" If it the random number is over 2 then the updated price will be more expensive than the original price. One line will have the original price of Avacados while the next will have the update price + 2.00
+        // 5. FINALLY - Please send the user an alert 1 TIME that says something like " The price of avacaods has increased - adjust accordingly" if the price of Avacados does go up according to priceChange.
+
+        // The popup looks something like this:
+        // Name of Store
+        // Original Avacado Price in Green
+        // Either "No change in Price of Avacados" or the New Avacado Price: (with 2 dollars added)
+
+        // An alert should pop up once before the map loads that tells the manager to change prices. 
+    </script>
+
+</body></html>

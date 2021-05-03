@@ -1,0 +1,92 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+
+        google.charts.setOnLoadCallback(drawPopChart);
+
+        google.charts.setOnLoadCallback(drawCO2Chart);
+
+        function drawPopChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'State');
+            data.addColumn('number', 'Population');
+            data.addRows([
+                ['California', 39461588],
+                ['Texas', 28628666],
+                ['Florida', 21244317],
+                ['New York', 19530351],
+                ['Pennsylvania', 12800922]
+            ]);
+
+            var options = {
+                title: 'Top 5 States in Population',
+                width: 750,
+                height: 400
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('pop_chart_div'));
+            chart.draw(data, options);
+        }
+
+        function drawCO2Chart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'State');
+            data.addColumn('number', 'Carbon Dioxide Emissions');
+            data.addRows([
+                ['Texas', 701.1],
+                ['California', 362.5],
+                ['Florida', 230.9],
+                ['Pennsylvania', 221.3],
+                ['Louisiana', 210.8]
+            ]);
+
+            var options = {
+                title: 'Top 5 States in Carbon Dioxide Emissions',
+                width: 650,
+                height: 400,
+                colors: ['red']
+            };
+
+            // Instantiate and draw the chart for Anthony's pizza.
+            var chart = new google.visualization.BarChart(document.getElementById('co2_chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+    <style>
+        p {
+            font-size: 25px;
+            color: #001323;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10%;
+            left: 10%;
+            right: 10%;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="columns">
+        <tr>
+            <td>
+                <div id="pop_chart_div" style="border: 1px solid #ccc"></div>
+            </td>
+            <td>
+                <div id="co2_chart_div" style="border: 1px solid #ccc"></div>
+            </td>
+        </tr>
+    </table>
+    <footer>
+        <p>The first bar chart shows the top 5 states of population, and the second bar chart shows the top 5 states of carbon dioxide emissions.<br>With the bar charts, we can see that most of the states with higher population have more carbon dioxide emissions.</p>
+    </footer>
+</body></html>

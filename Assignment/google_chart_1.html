@@ -1,0 +1,68 @@
+<html>
+
+<head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Carbon Dioxide Emissions');
+            data.addColumn('number', 'Number of States');
+            data.addRows([
+                ['0-25 million metric tons', 9],
+                ['25-50 million metric tons', 6],
+                ['50-100 million metric tons', 18],
+                ['100-150 million metric tons', 8],
+                ['150-250 million metric tons', 8],
+                ['250-500 million metric tons', 1],
+                ['500+ million metric tons', 1]
+            ]);
+
+            // Set chart options
+            var options = {
+                'title': 'Number of States in Each Range of Carbon Dioxide Emissions',
+                'width': 1000,
+                'height': 600
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+    <style>
+        p {
+            font-size: 25px;
+            color: #001323;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10%;
+            left: 10%;
+            right: 10%;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+    <footer>
+        <p>The chart shows the number of states in each range of carbon dioxide emissions.<br>With the pie chart, we can see that many states have 50-100 million metric tons of carbon dioxide emissions.</p>
+    </footer>
+</body></html>
